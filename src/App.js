@@ -48,7 +48,7 @@ function ChartAppMainComponent() {
   const [selectedCryptoName, setSelectedCryptoName] = useState("Bitcoin");// used to compose url to fetch data
   const [cryptoNameLabel, setCryptoNameLabel] = useState(selectedCryptoName); // used as graph label
   const URL_API_CALL = "https://api.polygon.io/v2/aggs/ticker/X:" + selectedCryptoCode + "USD/range/1/day/" + startDatePicker + "/" + endDatePicker + "?adjusted=true&sort=asc&apiKey=" + APIKEY;
-  const URL_API_CALL_GAINERS_LOSERS = "https://api.polygon.io/v2/snapshot/locale/global/markets/crypto/gainers?apiKey=" + APIKEY;
+  //const URL_API_CALL_GAINERS_LOSERS = "https://api.polygon.io/v2/snapshot/locale/global/markets/crypto/gainers?apiKey=" + APIKEY;
   const [apiCallAdress, setApiCallAdress] = useState(URL_API_CALL);
   const [apiData, setApiData] = useState(getApiData);
   
@@ -94,11 +94,12 @@ function ChartAppMainComponent() {
       setStartDateChart(startDatePicker);
       setGenerateButtonEnabled(false);
       setCryptoNameLabel(selectedCryptoName);
+      console.log(URL_API_CALL);
     } catch (error) {
       console.error("There has been a problem with your fetch operation:", error);
     }
   }
-
+  // test here
   function convertPolygonIoApiResponseDateToYYYYMMDD(jsonResponse) {
     for (let i = 0; i < jsonResponse.length; ++i) {
       let dateYYYYMMDD = unixTimestampToYYYY_MM_DD(jsonResponse[i].t);
@@ -203,6 +204,7 @@ function SelectionArea({ chartStartDate, chartEndDate, setChartStartDate, setCha
                 <option value="UNI">Uniswap</option>
                 <option value="FET">Fetch.ai</option>
                 <option value="ETC">Ethereum Classic</option>
+                <option value="XMR">Monero</option>
               </select>
           </div>
           <div>
