@@ -100,6 +100,7 @@ function ChartAppMainComponent() {
     }
   }
   // test here
+  // test here
   function convertPolygonIoApiResponseDateToYYYYMMDD(jsonResponse) {
     for (let i = 0; i < jsonResponse.length; ++i) {
       let dateYYYYMMDD = unixTimestampToYYYY_MM_DD(jsonResponse[i].t);
