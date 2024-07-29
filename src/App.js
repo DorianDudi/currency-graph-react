@@ -15,8 +15,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useEffect } from 'react';
 
-console.log(process.env.REACT_APP_KEY_POLYGONIO_API); // TO remove
-
 function unixTimestampToYYYY_MM_DD(timestamp) {
   return new Date(timestamp).toISOString().slice(0, 10);
 }
@@ -47,20 +45,24 @@ function ChartAppMainComponent() {
   const [startDateChart, setStartDateChart] = useState(startDatePicker);
   const [generateButtonEnabled, setGenerateButtonEnabled] = useState(false);
   const [selectedCryptoCode, setSelectedCryptoCode] = useState("BTC"); // used to compose url to fetch data
-  const [selectedCryptoName, setSelectedCryptoName] = useState("Bitcoin"); // used as graph label
-  const URL_API_CALL = "https://api.polygon.io/v2/aggs/ticker/X:BTCUSD/range/1/day/" + startDatePicker + "/" + endDatePicker + "?adjusted=true&sort=asc&apiKey=" + APIKEY;
+  const [selectedCryptoName, setSelectedCryptoName] = useState("Bitcoin");// used to compose url to fetch data
+  const [cryptoNameLabel, setCryptoNameLabel] = useState(selectedCryptoName); // used as graph label
+  const URL_API_CALL = "https://api.polygon.io/v2/aggs/ticker/X:" + selectedCryptoCode + "USD/range/1/day/" + startDatePicker + "/" + endDatePicker + "?adjusted=true&sort=asc&apiKey=" + APIKEY;
+  const URL_API_CALL_GAINERS_LOSERS = "https://api.polygon.io/v2/snapshot/locale/global/markets/crypto/gainers?apiKey=" + APIKEY;
   const [apiCallAdress, setApiCallAdress] = useState(URL_API_CALL);
   const [apiData, setApiData] = useState(getApiData);
   
   useEffect(() => {
     buildApiCallAdress();
     setGenerateButtonEnabled(true);
-  }, [startDatePicker, endDatePicker, apiCallAdress]);
+  }, [startDatePicker, endDatePicker, URL_API_CALL]);
   
-  useEffect(() => {
-    console.log(selectedCryptoCode + "test");
-    console.log(selectedCryptoName);
-  }, [selectedCryptoCode, selectedCryptoName]);
+  /*
+    useEffect(() => {
+      console.log(selectedCryptoCode + "test");
+      console.log(selectedCryptoName);
+    }, [selectedCryptoCode, selectedCryptoName]);
+  */
 
   function handleDropdownChange(e) {
     setSelectedCryptoCode(e.target.value);
@@ -91,6 +93,7 @@ function ChartAppMainComponent() {
       setEndDateChart(endDatePicker);
       setStartDateChart(startDatePicker);
       setGenerateButtonEnabled(false);
+      setCryptoNameLabel(selectedCryptoName);
     } catch (error) {
       console.error("There has been a problem with your fetch operation:", error);
     }
@@ -124,7 +127,7 @@ function ChartAppMainComponent() {
         setSelectedCryptoName={setSelectedCryptoName}
         handleDropdownChange={handleDropdownChange}
       />
-      <ChartArea data={apiData} />
+      <ChartArea data={apiData} cryptoNameLabel={cryptoNameLabel}/>
       <OthersArea />
     </div>
   );
@@ -180,8 +183,7 @@ function SelectionArea({ chartStartDate, chartEndDate, setChartStartDate, setCha
             <button onClick={generateChart}  className={"button-5" + buttonClassNameSuffix} role="button">Generate chart</button>
           </div>
           <div id="dropdown">
-            <label>
-              <select  value={selectedCryptoName} onChange={handleDropdownChange}>
+              <select  onChange={handleDropdownChange}>
                 <option value="BTC">Bitcoin</option>
                 <option value="ETH">Ethereum</option>
                 <option value="BNB">Build and Build</option>
@@ -202,18 +204,16 @@ function SelectionArea({ chartStartDate, chartEndDate, setChartStartDate, setCha
                 <option value="FET">Fetch.ai</option>
                 <option value="ETC">Ethereum Classic</option>
               </select>
-            </label>
           </div>
           <div>
-          <p>selectedCryptoCode: {selectedCryptoCode}</p>
-          <p>selectedCryptoName: {selectedCryptoName}</p>
+          <p>Currency name: {selectedCryptoName} // Currnecy Code: {selectedCryptoCode}</p>
           </div>
         </div>
     </div>
   )
 }
 
-function ChartArea({ data }) {
+function ChartArea({ data, cryptoNameLabel}) {
   return (
     <div id="chartArea">
       <div id="chart">
@@ -221,11 +221,12 @@ function ChartArea({ data }) {
           <LineChart width={600} height={600} data={data}>
             <CartesianGrid />
             <XAxis dataKey="t">
-              <Label value="Daily values for the selected interval" offset={0} position="insideBottom" />
+              <Label value="Daily values for the selected time interval" offset={0} position="insideBottom" />
             </XAxis>
             <YAxis dataKey="c">
-              <Label value="'selected currency' value" offset={0} angle="-90" position="insideLeft" />
+              <Label value={cryptoNameLabel + " value in USD"} offset={0} angle="-90" position="insideLeft" />
             </YAxis>
+            <Tooltip />
             <Line type="linear" dataKey="c" stroke="#8884d8" strokeWidth={5} />
           </LineChart>
         </ResponsiveContainer>
