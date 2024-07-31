@@ -38,7 +38,8 @@ function subtractDaysFromDate(dateObjVariable, numberOfDays) {
 }
 
 function ChartAppMainComponent() {
-  const APIKEY = process.env.REACT_APP_KEY_POLYGONIO_API;
+  //const APIKEY = process.env.REACT_APP_KEY_POLYGONIO_API;
+  const APIKEY = "K_FCiFZ730ZrokLkqV0hXdfp_iCGa1Q4";
   const [endDatePicker, setEndDatePicker] = useState(unixTimestampToYYYY_MM_DD(subtractDaysFromDate(new Date(), 1).getTime()));
   const [startDatePicker, setStartDatePicker] = useState(unixTimestampToYYYY_MM_DD(subtractDaysFromDate(new Date(), 7).getTime()));
   const [endDateChart, setEndDateChart] = useState(endDatePicker);
@@ -57,13 +58,6 @@ function ChartAppMainComponent() {
     setGenerateButtonEnabled(true);
   }, [startDatePicker, endDatePicker, URL_API_CALL]);
   
-  /*
-    useEffect(() => {
-      console.log(selectedCryptoCode + "test");
-      console.log(selectedCryptoName);
-    }, [selectedCryptoCode, selectedCryptoName]);
-  */
-
   function handleDropdownChange(e) {
     setSelectedCryptoCode(e.target.value);
     setSelectedCryptoName(e.target[e.target.selectedIndex].text);
@@ -99,7 +93,7 @@ function ChartAppMainComponent() {
       console.error("There has been a problem with your fetch operation:", error);
     }
   }
-  // test here
+
   function convertPolygonIoApiResponseDateToYYYYMMDD(jsonResponse) {
     for (let i = 0; i < jsonResponse.length; ++i) {
       let dateYYYYMMDD = unixTimestampToYYYY_MM_DD(jsonResponse[i].t);
@@ -179,8 +173,8 @@ function SelectionArea({ chartStartDate, chartEndDate, setChartStartDate, setCha
             />
           </div>
         </div>
-        <div id="selection_area_bottom" style={{border: "1px solid red"}}>
-          <div id="button"  style={{border: "1px solid red"}}>
+        <div id="selection_area_bottom">
+          <div id="button">
             <button onClick={generateChart}  className={"button-5" + buttonClassNameSuffix} role="button">Generate chart</button>
           </div>
           <div id="dropdown">
