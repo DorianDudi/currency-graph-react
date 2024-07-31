@@ -1,0 +1,16 @@
+{"meta":{
+    "code":200,
+    "disclaimer":"Usage subject to terms: https:\/\/currencybeacon.com\/terms"},
+    "response":{
+        "date":"2024-05-23",
+        "base":"BTC",
+        "rates":{
+            "USD":67877.60310608
+        }
+    },
+    "date":"2024-05-23",
+    "base":"BTC",
+    "rates":{
+        "USD":67877.60310608
+    }
+}
