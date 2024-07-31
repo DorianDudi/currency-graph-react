@@ -38,8 +38,7 @@ function subtractDaysFromDate(dateObjVariable, numberOfDays) {
 }
 
 function ChartAppMainComponent() {
-  //const APIKEY = process.env.REACT_APP_KEY_POLYGONIO_API;
-  const APIKEY = "K_FCiFZ730ZrokLkqV0hXdfp_iCGa1Q4";
+  const APIKEY = process.env.REACT_APP_KEY_POLYGONIO_API;
   const [endDatePicker, setEndDatePicker] = useState(unixTimestampToYYYY_MM_DD(subtractDaysFromDate(new Date(), 1).getTime()));
   const [startDatePicker, setStartDatePicker] = useState(unixTimestampToYYYY_MM_DD(subtractDaysFromDate(new Date(), 7).getTime()));
   const [endDateChart, setEndDateChart] = useState(endDatePicker);
