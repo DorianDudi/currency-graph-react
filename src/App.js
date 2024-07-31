@@ -21,10 +21,10 @@ function unixTimestampToYYYY_MM_DD(timestamp) {
 
 function getCurrentDateDD_MM_YYYY() {  // not used
 	let dateYYYY_MM_DD = new Date(Date.now()).toISOString().slice(0, 10);
-  let year = dateYYYY_MM_DD.slice(0, 4);
-  let month = dateYYYY_MM_DD.slice(5, 7);
-  let day = dateYYYY_MM_DD.slice(8);
-  return day + "-" + month + "-" + year 
+	let year = dateYYYY_MM_DD.slice(0, 4);
+	let month = dateYYYY_MM_DD.slice(5, 7);
+	let day = dateYYYY_MM_DD.slice(8);
+	return day + "-" + month + "-" + year 
 }
 
 function getCurrentDateYYYY_MM_DD() { // not used
